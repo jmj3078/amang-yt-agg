@@ -14,6 +14,21 @@ function build(items){
   return { summary:{ totalSenders:Object.keys(by).length, totalLinks:items.length }, itemsBySender: by, itemsFlat: items };
 }
 
+function parseKakaoDate(str) {
+  if (!str) return null;
+  const m = str.match(/(\d+)\.\s*(\d+)\.\s*(\d+)\.\s*(오전|오후)\s*(\d+):(\d+)/);
+  if (!m) return null;
+  let [_, year, month, day, ampm, hour, minute] = m;
+  year = parseInt(year, 10);
+  month = parseInt(month, 10) - 1;
+  day = parseInt(day, 10);
+  hour = parseInt(hour, 10);
+  minute = parseInt(minute, 10);
+  if (ampm === '오후' && hour < 12) hour += 12;
+  if (ampm === '오전' && hour === 12) hour = 0;
+  return new Date(year, month, day, hour, minute).valueOf();
+}
+
 export async function loadFromCsvUrl(url){
   if (!url) throw new Error('CSV_URL is not set');
   const res = await fetch(url, { cache: 'no-store' });
@@ -25,8 +40,8 @@ export async function loadFromCsvUrl(url){
   for (const r of rows){
     const sender = String(r.User ?? r.Sender ?? '').trim();
     const msg = String(r.Message ?? r.Content ?? '').trim();
-    const dateStr = String(r.Date ?? r.Timestamp ?? '').trim();
-    const ts = dateStr ? (new Date(dateStr).valueOf() || null) : null;
+    const dateStr = String(r.Date ?? r.Timestamp ?? r['날짜'] ?? '').trim();
+    const ts = parseKakaoDate(dateStr);
     if(!sender || !msg) continue;
     for (const m of msg.matchAll(YT_REGEX)){
       const link = m[0];
