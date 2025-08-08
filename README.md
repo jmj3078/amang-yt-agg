@@ -1,5 +1,5 @@
 
-# KakaoTalk YouTube Link Aggregator — Full (Patched v2)
+# For Music Lovers
 - Tailwind UI, Responsive
 - Latest tab (itemsFlat from backend)
 - Optional POLL_MS background reload
