@@ -28,8 +28,7 @@ export default function App() {
 
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: 16 }}>
-      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>Kakao → YouTube 링크 모음 (CSV)</h1>
-      <p style={{ color: '#666', marginBottom: 16 }}>공개 CSV에서 데이터를 불러옵니다.</p>
+      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>아망음악공유방 Youtube링크 모음 (CSV)</h1>
 
       {loading && <div style={{ marginBottom: 12 }}>로딩 중...</div>}
       {error && <div style={{ marginBottom: 12, color: 'crimson' }}>{error}</div>}
