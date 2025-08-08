@@ -31,8 +31,7 @@ export default function App() {
   return (
     <div className="max-w-6xl mx-auto p-4">
       <header className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">
-          아망 음악공유방🎧 Youtube 링크 모음</h1>
+        <h1 className="text-2xl font-bold">아망 음악공유방🎧 Youtube 링크 모음</h1>
         {data && (
           <div className="text-sm text-slate-500">
             참여자 {Object.keys(data.itemsBySender||{}).length} · 링크 {data.summary?.totalLinks ?? 0}
