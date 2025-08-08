@@ -1,0 +1,13 @@
+{
+  "name": "kakao-yt-aggregator-csvdb",
+  "private": true,
+  "version": "0.2.0",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "npm --workspace backend run dev",
+    "dev:frontend": "npm --workspace frontend run dev"
+  }
+}
