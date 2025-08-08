@@ -43,19 +43,17 @@ export async function loadFromCsvUrl(url) {
     });
   const items = [];
   for (const r of rows) {
+    const dateStr = String(r.Date ??'').trim();
     const sender  = String(r.User ?? '').trim();
     const msg     = String(r.Message ?? '').trim();
-    const dateStr = String(r.Date ??'').trim();
 
     if (!sender || !msg) continue;
 
     for (const m of msg.matchAll(YT_REGEX)) {
-      const link = m[0];
-      // 날짜는 그대로 저장, ts 제거
       items.push({
         sender,
-        link,
-        thumb: toThumbnail(link),
+        link: m[0],
+        thumb: toThumbnail(m[0]),
         date: dateStr || null
       });
     }
