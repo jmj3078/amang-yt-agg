@@ -17,13 +17,11 @@ function build(items){
 function parseKakaoDate(str) {
   if (!str) return null;
   const s = String(str).trim().replace(/\u200e/g, '').replace(/^\uFEFF/, '');
-
   // 1) YYYY-MM-DD HH:mm:ss 포맷 처리
   if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(s)) {
     const t = Date.parse(s.replace(' ', 'T')); // ISO8601로 변환
     return Number.isNaN(t) ? null : t;
   }
-
   // 2) 기존 카톡 "YYYY. M. D. 오전/오후 HH:mm" 포맷 처리
   let m = s.match(
     /(\d{4})[.\-]\s*(\d{1,2})[.\-]\s*(\d{1,2})[.\-]?\s*(오전|오후)?\s*(\d{1,2}):(\d{2})(?::(\d{2}))?/
@@ -66,6 +64,7 @@ export async function loadFromCsvUrl(url){
     }
   }
   CACHE = build(items);
+  console.log(items.slice(0, 5));
   return CACHE;
 }
 
