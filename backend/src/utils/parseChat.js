@@ -16,23 +16,32 @@ function build(items){
 
 function parseKakaoDate(str) {
   if (!str) return null;
-  const s = String(str).trim().replace(/\u200e/g, ''); // 보이지 않는 문자 제거
-  // 카카오 포맷 예: "2025. 8. 9. 오전 12:56"
+  const s = String(str).trim().replace(/\u200e/g, '').replace(/^\uFEFF/, '');
+
+  // 1) YYYY-MM-DD HH:mm:ss 포맷 처리
+  if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(s)) {
+    const t = Date.parse(s.replace(' ', 'T')); // ISO8601로 변환
+    return Number.isNaN(t) ? null : t;
+  }
+
+  // 2) 기존 카톡 "YYYY. M. D. 오전/오후 HH:mm" 포맷 처리
   let m = s.match(
-    /(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})\.\s*(오전|오후)\s*(\d{1,2}):(\d{2})/
+    /(\d{4})[.\-]\s*(\d{1,2})[.\-]\s*(\d{1,2})[.\-]?\s*(오전|오후)?\s*(\d{1,2}):(\d{2})(?::(\d{2}))?/
   );
   if (m) {
-    let [_, year, month, day, ampm, hour, minute] = m;
+    let [_, year, month, day, ampm, hour, minute, sec] = m;
     year = parseInt(year, 10);
     month = parseInt(month, 10) - 1;
     day = parseInt(day, 10);
     hour = parseInt(hour, 10);
     minute = parseInt(minute, 10);
+    sec = parseInt(sec || '0', 10);
     if (ampm === '오후' && hour < 12) hour += 12;
     if (ampm === '오전' && hour === 12) hour = 0;
-    return new Date(year, month, day, hour, minute).valueOf();
+    return new Date(year, month, day, hour, minute, sec).valueOf();
   }
-  // 다른 일반 포맷 (예: "2025-08-09 21:05" 등)
+
+  // 3) 그 외 Date.parse() 시도
   const t = Date.parse(s);
   return Number.isNaN(t) ? null : t;
 }
