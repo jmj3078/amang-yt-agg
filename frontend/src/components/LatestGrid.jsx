@@ -10,7 +10,10 @@ export default function LatestGrid({ items=[] }) {
            className="block rounded-xl overflow-hidden border border-slate-200 bg-white hover:shadow transition">
           {it.thumb && <img src={it.thumb} alt="" className="w-full block aspect-video object-cover" />}
           <div className="p-3">
-            <div className="text-xs text-slate-500 mb-1">{it.date || '날짜 없음'} · {it.sender}</div>
+            <div className="text-xs text-slate-500 mb-1">
+              {(it.date && it.date.trim()) || (it.ts ? new Date(it.ts).toLocaleString('ko-KR') : '날짜 없음')}
+              {' · '}{it.sender}
+            </div>
             <div className="text-xs text-sky-700 break-all">{it.link}</div>
           </div>
         </a>
