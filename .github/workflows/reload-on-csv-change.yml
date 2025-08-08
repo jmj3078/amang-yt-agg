@@ -1,0 +1,26 @@
+name: Reload backend cache when CSV updates
+
+on:
+  push:
+    paths:
+      - "db/**/*.csv"        # CSV가 이 경로에 있을 때만 트리거
+  workflow_dispatch:         # Actions 탭에서 수동 실행도 가능
+  schedule:                
+    - cron: "*/30 * * * *"
+
+jobs:
+  reload:
+    runs-on: ubuntu-latest
+    env:
+      BACKEND_URL: https://amang-music-sharing-talkbang.onrender.com
+    steps:
+      - name: Ping backend /admin/reload
+        run: |
+          for i in 1 2 3; do
+            curl -fsS -X POST "$BACKEND_URL/api/parse/admin/reload" \
+              -H "Authorization: Bearer $ADMIN_TOKEN" && exit 0
+            echo "retry $i..." && sleep 5
+          done
+          echo "reload failed" && exit 1
+        env:
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
