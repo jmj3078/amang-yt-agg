@@ -27,7 +27,7 @@ export default function SenderList({ itemsBySender, active, onSelect, filter }) 
               <span className="text-slate-400 text-sm">({arr.length})</span>
             </div>
             <div className="text-xs text-slate-500 mt-0.5">
-              📅 {formatDate(latest)}
+              Latest : {formatDate(latest)}
             </div>
           </div>
         );
