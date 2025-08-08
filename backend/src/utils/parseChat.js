@@ -35,8 +35,12 @@ export async function loadFromCsvUrl(url) {
   const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) throw new Error(`CSV fetch failed: ${res.status}`);
   const buf = Buffer.from(await res.arrayBuffer());
-  const rows = parseCsv(buf, { columns: true, skip_empty_lines: true });
-
+  const rows = parseCsv(buf, {
+      bom: true,                               // UTF-8 BOM 제거
+      skip_empty_lines: true,
+      columns: (header) =>
+        header.map(h => String(h).replace(/^\uFEFF/, '').trim()) // 헤더 정규화
+    });
   const items = [];
   for (const r of rows) {
     const sender  = String(r.User ?? '').trim();

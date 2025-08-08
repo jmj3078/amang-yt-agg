@@ -47,7 +47,7 @@ export default function App() {
         <button
           className={`px-4 py-2 text-sm ${tab==='latest'?'bg-slate-900 text-white':'text-slate-700 hover:bg-slate-100'}`}
           onClick={()=>setTab('latest')}
-        >오래된순</button>
+        >최신순 / 오래된순</button>
       </div>
 
       {loading && <div className="mb-3">로딩 중...</div>}
