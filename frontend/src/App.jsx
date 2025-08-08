@@ -31,7 +31,7 @@ export default function App() {
   return (
     <div className="max-w-6xl mx-auto p-4">
       <header className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Kakao → YouTube 링크 모음</h1>
+        <h1 className="text-2xl font-bold">아망 음악공유방🎧 Youtube 링크 모음</h1>
         {data && (
           <div className="text-sm text-slate-500">
             참여자 {Object.keys(data.itemsBySender||{}).length} · 링크 {data.summary?.totalLinks ?? 0}
@@ -47,7 +47,7 @@ export default function App() {
         <button
           className={`px-4 py-2 text-sm ${tab==='latest'?'bg-slate-900 text-white':'text-slate-700 hover:bg-slate-100'}`}
           onClick={()=>setTab('latest')}
-        >최신순</button>
+        >오래된순</button>
       </div>
 
       {loading && <div className="mb-3">로딩 중...</div>}
