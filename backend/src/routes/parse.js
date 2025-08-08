@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { loadFromCsvUrl, getCache } from '../utils/parseChat.js';
+import { loadFromCsvUrl, getCache, startPollingIfEnabled } from '../utils/parseChat.js';
 
 const router = Router();
 
@@ -9,13 +9,13 @@ async function ensureLoaded(){
   await readyPromise;
 }
 
-// Public: current cached data
+startPollingIfEnabled();
+
 router.get('/public', async (req,res,next)=>{
   try { await ensureLoaded(); res.json(getCache()); }
   catch(e){ next(e); }
 });
 
-// Admin: force reload from CSV_URL
 router.post('/admin/reload', async (req,res,next)=>{
   try{
     const token = req.headers.authorization?.replace('Bearer ', '');

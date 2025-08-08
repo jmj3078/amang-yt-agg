@@ -13,5 +13,7 @@ app.use(express.json({ limit: '2mb' }));
 app.use('/api/parse', parseRouter);
 app.use(errorMiddleware);
 
+app.get('/', (req, res) => res.redirect('/api/parse/public'));
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Backend listening on http://localhost:${PORT}`));
