@@ -39,9 +39,9 @@ export async function loadFromCsvUrl(url) {
 
   const items = [];
   for (const r of rows) {
-    const sender  = String(r.User ?? r.Sender ?? r['보낸사람'] ?? '').trim();
-    const msg     = String(r.Message ?? r.Content ?? r['메시지'] ?? '').trim();
-    const dateStr = String(r.Date ?? r.Timestamp ?? r['날짜'] ?? '').trim();
+    const sender  = String(r.User ?? '').trim();
+    const msg     = String(r.Message ?? '').trim();
+    const dateStr = String(r.Date ??'').trim();
 
     if (!sender || !msg) continue;
 
